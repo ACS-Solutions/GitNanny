@@ -13,8 +13,12 @@ version: 2
 # advisory still raises a PR between routine runs, which is the part of
 # Dependabot the routine cannot replace.
 updates:
+  # Root, not /GitNanny: the solution has two projects and both carry package
+  # references. Scoping to /GitNanny missed GitNanny.Tests entirely, which
+  # mattered when the Pkcs advisory landed in October 2026 — it affected both
+  # projects and the fix had to pin both.
   - package-ecosystem: nuget
-    directory: /GitNanny
+    directory: /
     schedule:
       interval: weekly
     open-pull-requests-limit: 0
