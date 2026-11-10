@@ -1,30 +1,33 @@
 version: 2
 
-# Security-only mode: version updates are off, security updates stay on.
+# Dependabot does the weekly dependency updates (claude-hosts#64, #12). It
+# replaced the cloud routine that used to open "Weekly dependency updates" PRs
+# from claude/dependency-updates.
 #
-# The weekly dependency routine (branch claude/dependency-updates) already
-# bumps every outdated package and action to the latest stable, so Dependabot's
-# version-update PRs duplicated that work and raced it — #6, #7 and #8 each sat
-# open for months while the routine shipped the same bump, then had to be closed
-# as superseded.
+# Each ecosystem is grouped into a single weekly PR. Only stable versions are
+# offered, which is Dependabot's default; nothing here allows prereleases.
+# Security updates are on as well and arrive as soon as an advisory is published.
 #
-# open-pull-requests-limit: 0 disables version updates for an ecosystem.
-# Security updates are explicitly unaffected by the setting, so a published
-# advisory still raises a PR between routine runs, which is the part of
-# Dependabot the routine cannot replace.
+# Dependabot doesn't update global.json's SDK version. .NET major upgrades come
+# from the root session's yearly .NET watcher (claude-hosts#64, step 3).
 updates:
   # Root, not /GitNanny: the solution has two projects and both carry package
-  # references. Scoping to /GitNanny missed GitNanny.Tests entirely, which
-  # mattered when the Pkcs advisory landed in October 2026 — it affected both
-  # projects and the fix had to pin both.
+  # references. Dependabot finds GitNanny.slnx at the root and updates both
+  # projects in one PR. Scoping to /GitNanny missed GitNanny.Tests entirely,
+  # which mattered when the Pkcs advisory landed in October 2026: it affected
+  # both projects and the fix had to pin both.
   - package-ecosystem: nuget
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+    groups:
+      nuget:
+        patterns: ["*"]
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+    groups:
+      github-actions:
+        patterns: ["*"]
