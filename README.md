@@ -3,7 +3,7 @@
 [![CI](https://github.com/alasdaircs/GitNanny/actions/workflows/ci.yml/badge.svg)](https://github.com/alasdaircs/GitNanny/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A .NET 10 Windows console application that scans local folders for Git repositories, summarises in-progress work using the Claude AI API, and sends an HTML email report via Microsoft 365.
+A .NET 11 Windows console application that scans local folders for Git repositories, summarises in-progress work using the Claude AI API, and sends an HTML email report via Microsoft 365.
 
 Intended to run nightly via Windows Task Scheduler so you always know which repos have uncommitted or unpushed work.
 
@@ -26,7 +26,7 @@ Intended to run nightly via Windows Task Scheduler so you always know which repo
 | Requirement | Notes |
 |---|---|
 | Windows 10/11 | DPAPI token cache is Windows-only |
-| .NET 10 SDK | Build only; the published exe is self-contained |
+| .NET 11 SDK | Build only; the published exe is self-contained |
 | Microsoft Entra app registration | Delegated `Mail.Send` permission, public client, redirect URI `http://localhost` |
 | Claude API key | Set as environment variable `CLAUDE_API_KEY` |
 
